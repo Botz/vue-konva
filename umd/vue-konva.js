@@ -438,7 +438,6 @@ var CONTAINERS = {
 
       var props = KonvaNode_extends({}, this.$attrs, this.config);
 
-      console.log(props);
       applyNodeProps(this, props, oldProps);
       this.oldProps = props;
     }
@@ -477,10 +476,6 @@ var VueKonva = {
   }
 };
 /* harmony default export */ var src = __webpack_exports__["default"] = (VueKonva);
-
-if (typeof window !== 'undefined' && window.Vue) {
-  window.Vue.use(VueKonva);
-}
 
 /***/ })
 /******/ ])["default"];
