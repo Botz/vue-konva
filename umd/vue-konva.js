@@ -259,10 +259,10 @@ function checkOrder($vnode, konvaNode) {
   // so we have to dive-in into componentOptions of vnode
   // also componentOptions.children may have empty nodes, and other non Konva elements so we need to filter them first
 
-  var children = $vnode.componentOptions.children || [];
+  var children = [];
   var nodes = [];
   children.forEach(function ($vnode) {
-    var konvaNode = findKonvaNode($vnode.componentInstance);
+    var konvaNode = findKonvaNode($vnode);
 
     if (konvaNode) {
       nodes.push(konvaNode);
@@ -295,7 +295,9 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 
 /* harmony default export */ var Stage = ({
   render: function render() {
-    return Object(external_root_Vue_commonjs2_vue_commonjs_vue_amd_vue_["h"])('div', this.$slots.default());
+    var _this$$slots$default, _this$$slots;
+
+    return Object(external_root_Vue_commonjs2_vue_commonjs_vue_amd_vue_["h"])('div', (_this$$slots$default = (_this$$slots = this.$slots).default) === null || _this$$slots$default === void 0 ? void 0 : _this$$slots$default.call(_this$$slots));
   },
   watch: {
     config: {
@@ -332,7 +334,7 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
   updated: function updated() {
     this.uploadKonva();
     this.uploadKonva();
-    checkOrder(this.$vnode, this._konvaNode);
+    checkOrder(this.getNode(), this._konvaNode);
   },
   beforeUnmount: function beforeUnmount() {
     this._konvaNode.destroy();
@@ -379,7 +381,9 @@ var CONTAINERS = {
     var isContainer = CONTAINERS[nameNode];
 
     if (isContainer) {
-      return Object(external_root_Vue_commonjs2_vue_commonjs_vue_amd_vue_["h"])('template', this.$slots.default());
+      var _this$$slots$default, _this$$slots;
+
+      return Object(external_root_Vue_commonjs2_vue_commonjs_vue_amd_vue_["h"])('template', (_this$$slots$default = (_this$$slots = this.$slots).default) === null || _this$$slots$default === void 0 ? void 0 : _this$$slots$default.call(_this$$slots));
     } // other elements are not containers
 
 
@@ -401,13 +405,22 @@ var CONTAINERS = {
   }, _ref.created = function created() {
     this.initKonva();
   }, _ref.mounted = function mounted() {
+    if (!window.nodes) {
+      window.nodes = {};
+    }
+
+    if (!window.nodes[nameNode]) {
+      window.nodes[nameNode] = [];
+    }
+
+    window.nodes[nameNode].push(this);
     var parentVueInstance = findParentKonva(this);
     var parentKonvaNode = parentVueInstance._konvaNode;
     parentKonvaNode.add(this._konvaNode);
     updatePicture(this._konvaNode);
   }, _ref.updated = function updated() {
     this.uploadKonva();
-    checkOrder(this.$vnode, this._konvaNode);
+    checkOrder(this.$.vnode, this._konvaNode);
   }, _ref.unmounted = function unmounted() {
     updatePicture(this._konvaNode);
 
